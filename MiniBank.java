@@ -21,6 +21,39 @@ public class MiniBank {
         System.out.println("       " + bank.branch());
         System.out.println("================================");
 
+        Customer customer = new Customer(
+            "Kush Patel",
+            "kush@gmail.com",
+            "9876543210"
+        );
+
+        System.out.println("\nCustomer ID: " + customer.getCustomerId());
+        System.out.println("Customer Name: " + customer.getName());
+
+        Account[] accounts = {
+            new Account("Kush Patel", 5000),
+            new Account("Rahul Shah", 3000),
+            new Account("Aarav Patel")
+        };
+
+        accounts[0].deposit(2000);
+        accounts[0].withdraw(1000);
+
+        accounts[1].deposit(1500);
+        accounts[1].withdraw(500);
+
+        accounts[2].deposit(4000);
+        accounts[2].withdraw(1000);
+
+        System.out.println("\n========== ACCOUNT DETAILS ==========");
+
+        for (Account account : accounts) {
+            System.out.println("Account Number: " + account.getAccountNumber());
+            System.out.println("Owner: " + account.getOwnerName());
+            System.out.println("Balance: Rs. " + account.getBalance());
+            System.out.println("--------------------------------");
+        }
+
         Scanner sc = new Scanner(System.in);
 
         while (true) {
