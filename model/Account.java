@@ -1,7 +1,8 @@
+package model;
 
 import java.util.Objects;
 
-public abstract class Account {
+public abstract class Account implements Transactable, InterestBearing {
 
     private final String accountNumber;
     private String ownerName;
@@ -30,10 +31,12 @@ public abstract class Account {
 
     public abstract boolean canWithdraw(long amount);
 
+    @Override
     public void deposit(long amount) {
         balance += amount;
     }
 
+    @Override
     public boolean withdraw(long amount) {
         if (amount > 0 && canWithdraw(amount)) {
             balance -= amount;
