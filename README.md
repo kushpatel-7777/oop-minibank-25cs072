@@ -4,8 +4,7 @@
 A console-based banking application developed using Java as part of the Object-Oriented Programming practicals.
 
 ## Lab 1 - Menu Shell
-- Bank information using Java Record
-- Menu options using Enum
+- Java Records and Enums
 - Scanner and switch expressions
 
 ## Lab 2 - Customer and Account Classes
@@ -22,9 +21,17 @@ A console-based banking application developed using Java as part of the Object-O
 ## Lab 4 - Validation and Command Parsing
 - Regex validation for mobile, email, PAN and IFSC
 - TransactionType enum
-- Command record
-- CommandParser using split()
+- Command record and parser
 - StatementFormatter using StringBuilder
+
+## Lab 5 - Abstract Classes and Polymorphism
+- Abstract Account class
+- SavingsAccount
+- CurrentAccount
+- FixedDepositAccount
+- Method overriding
+- Runtime polymorphism
+- Account-specific withdrawal rules
 
 ## Requirements
 - Java JDK 17 or above

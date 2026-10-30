@@ -34,9 +34,9 @@ public class MiniBank {
         System.out.println("Name: " + customer.getName());
 
         Account[] accounts = {
-            new Account("Kush Patel", 5000),
-            new Account("Rahul Shah", 3000),
-            new Account("Aarav Patel")
+            new SavingsAccount("Kush Patel", 5000, 1000),
+            new CurrentAccount("Rahul Shah", 3000, 2000),
+            new FixedDepositAccount("Aarav Patel", 10000)
         };
 
         accounts[0].deposit(2000);
@@ -45,14 +45,34 @@ public class MiniBank {
         accounts[1].deposit(1500);
         accounts[1].withdraw(500);
 
-        accounts[2].deposit(4000);
-        accounts[2].withdraw(1000);
+        accounts[2].deposit(2000);
 
         System.out.println("\n========== ACCOUNT DETAILS ==========");
 
         for (Account account : accounts) {
             System.out.println(account);
         }
+
+        System.out.println("\n========== POLYMORPHISM TEST ==========");
+
+        for (Account account : accounts) {
+            System.out.println("Account: " + account.getAccountNumber());
+            System.out.println("Owner: " + account.getOwnerName());
+            System.out.println("Interest Rate: " + account.interestRate() + "%");
+            System.out.println("Balance: Rs. " + account.getBalance());
+            System.out.println("--------------------------------");
+        }
+
+        System.out.println("\n========== WITHDRAWAL TEST ==========");
+
+        System.out.println("Savings withdrawal of Rs. 1000: "
+                + accounts[0].withdraw(1000));
+
+        System.out.println("Current withdrawal of Rs. 6000: "
+                + accounts[1].withdraw(6000));
+
+        System.out.println("Fixed Deposit withdrawal of Rs. 1000: "
+                + accounts[2].withdraw(1000));
 
         System.out.println("\n========== VALIDATION TESTS ==========");
 
