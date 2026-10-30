@@ -6,21 +6,25 @@ A console-based banking application developed using Java as part of the Object-O
 ## Lab 1 - Menu Shell
 - Bank information using Java Record
 - Menu options using Enum
-- User input using Scanner
-- Switch expressions
+- Scanner and switch expressions
 
 ## Lab 2 - Customer and Account Classes
-- Encapsulation
+- Encapsulation and constructors
 - Customer ID and account number generation
-- Constructors and constructor overloading
 - Deposit and withdrawal operations
 
 ## Lab 3 - Object Methods and Nested Classes
-- Account toString() method
-- Account equals() and hashCode() methods
-- Static nested Address class
-- Customer cloning using Cloneable
-- instanceof type checking
+- toString(), equals() and hashCode()
+- Nested Address class
+- Customer cloning
+- instanceof checking
+
+## Lab 4 - Validation and Command Parsing
+- Regex validation for mobile, email, PAN and IFSC
+- TransactionType enum
+- Command record
+- CommandParser using split()
+- StatementFormatter using StringBuilder
 
 ## Requirements
 - Java JDK 17 or above

@@ -22,31 +22,16 @@ public class MiniBank {
         System.out.println("================================");
 
         Customer.Address address = new Customer.Address(
-            "Hostel Block A",
-            "Changa",
-            "388421"
+            "Hostel Block A", "Changa", "388421"
         );
 
         Customer customer = new Customer(
-            "Kush Patel",
-            "kush@gmail.com",
-            "9876543210",
-            address
+            "Kush Patel", "kush@gmail.com", "9876543210", address
         );
 
         System.out.println("\n========== CUSTOMER DETAILS ==========");
         System.out.println("Customer ID: " + customer.getCustomerId());
         System.out.println("Name: " + customer.getName());
-        System.out.println("Email: " + customer.getEmail());
-        System.out.println("Mobile: " + customer.getMobile());
-        System.out.println("Address: " + customer.getAddress().getLine());
-        System.out.println("City: " + customer.getAddress().getCity());
-        System.out.println("Pincode: " + customer.getAddress().getPincode());
-
-        Customer clonedCustomer = customer.clone();
-
-        System.out.println("\nCloned Customer ID: " + clonedCustomer.getCustomerId());
-        System.out.println("Customer Clone Created Successfully");
 
         Account[] accounts = {
             new Account("Kush Patel", 5000),
@@ -69,15 +54,38 @@ public class MiniBank {
             System.out.println(account);
         }
 
-        System.out.println("\n========== EQUALITY CHECK ==========");
-        System.out.println("Account 1 equals Account 2: " + accounts[0].equals(accounts[1]));
-        System.out.println("Account 1 equals itself: " + accounts[0].equals(accounts[0]));
+        System.out.println("\n========== VALIDATION TESTS ==========");
 
-        Object obj = accounts[0];
+        System.out.println("Valid Mobile: " +
+                Validator.isValidMobile("9876543210"));
+        System.out.println("Invalid Mobile: " +
+                Validator.isValidMobile("123456"));
 
-        System.out.println("\n========== INSTANCEOF CHECK ==========");
-        System.out.println("Object is an Account: " + (obj instanceof Account));
-        System.out.println("Object is a Customer: " + (obj instanceof Customer));
+        System.out.println("Valid Email: " +
+                Validator.isValidEmail("kush@gmail.com"));
+        System.out.println("Invalid Email: " +
+                Validator.isValidEmail("kushgmail.com"));
+
+        System.out.println("Valid PAN: " +
+                Validator.isValidPan("ABCDE1234F"));
+        System.out.println("Invalid PAN: " +
+                Validator.isValidPan("ABC123"));
+
+        System.out.println("Valid IFSC: " +
+                Validator.isValidIfsc("SBIN0001234"));
+        System.out.println("Invalid IFSC: " +
+                Validator.isValidIfsc("SBIN123"));
+
+        System.out.println("\n========== COMMAND PARSER ==========");
+
+        Command command = CommandParser.parse("DEPOSIT AC0001 500");
+
+        System.out.println("Transaction Type: " + command.type());
+        System.out.println("Account Number: " + command.accountNumber());
+        System.out.println("Amount: Rs. " + command.amount());
+
+        System.out.println("\n" +
+                StatementFormatter.buildStatement(accounts[0]));
 
         Scanner sc = new Scanner(System.in);
 
