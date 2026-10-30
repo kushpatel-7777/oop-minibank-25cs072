@@ -21,14 +21,32 @@ public class MiniBank {
         System.out.println("       " + bank.branch());
         System.out.println("================================");
 
+        Customer.Address address = new Customer.Address(
+            "Hostel Block A",
+            "Changa",
+            "388421"
+        );
+
         Customer customer = new Customer(
             "Kush Patel",
             "kush@gmail.com",
-            "9876543210"
+            "9876543210",
+            address
         );
 
-        System.out.println("\nCustomer ID: " + customer.getCustomerId());
-        System.out.println("Customer Name: " + customer.getName());
+        System.out.println("\n========== CUSTOMER DETAILS ==========");
+        System.out.println("Customer ID: " + customer.getCustomerId());
+        System.out.println("Name: " + customer.getName());
+        System.out.println("Email: " + customer.getEmail());
+        System.out.println("Mobile: " + customer.getMobile());
+        System.out.println("Address: " + customer.getAddress().getLine());
+        System.out.println("City: " + customer.getAddress().getCity());
+        System.out.println("Pincode: " + customer.getAddress().getPincode());
+
+        Customer clonedCustomer = customer.clone();
+
+        System.out.println("\nCloned Customer ID: " + clonedCustomer.getCustomerId());
+        System.out.println("Customer Clone Created Successfully");
 
         Account[] accounts = {
             new Account("Kush Patel", 5000),
@@ -48,11 +66,18 @@ public class MiniBank {
         System.out.println("\n========== ACCOUNT DETAILS ==========");
 
         for (Account account : accounts) {
-            System.out.println("Account Number: " + account.getAccountNumber());
-            System.out.println("Owner: " + account.getOwnerName());
-            System.out.println("Balance: Rs. " + account.getBalance());
-            System.out.println("--------------------------------");
+            System.out.println(account);
         }
+
+        System.out.println("\n========== EQUALITY CHECK ==========");
+        System.out.println("Account 1 equals Account 2: " + accounts[0].equals(accounts[1]));
+        System.out.println("Account 1 equals itself: " + accounts[0].equals(accounts[0]));
+
+        Object obj = accounts[0];
+
+        System.out.println("\n========== INSTANCEOF CHECK ==========");
+        System.out.println("Object is an Account: " + (obj instanceof Account));
+        System.out.println("Object is a Customer: " + (obj instanceof Customer));
 
         Scanner sc = new Scanner(System.in);
 

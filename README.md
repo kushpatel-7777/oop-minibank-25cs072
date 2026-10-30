@@ -8,16 +8,19 @@ A console-based banking application developed using Java as part of the Object-O
 - Menu options using Enum
 - User input using Scanner
 - Switch expressions
-- Repeating menu until Exit
 
 ## Lab 2 - Customer and Account Classes
-- Customer class with encapsulated fields
-- Automatic customer ID generation
-- Account class with automatic account numbers
-- Constructor overloading
+- Encapsulation
+- Customer ID and account number generation
+- Constructors and constructor overloading
 - Deposit and withdrawal operations
-- Account balance management
-- Array of Account objects
+
+## Lab 3 - Object Methods and Nested Classes
+- Account toString() method
+- Account equals() and hashCode() methods
+- Static nested Address class
+- Customer cloning using Cloneable
+- instanceof type checking
 
 ## Requirements
 - Java JDK 17 or above
