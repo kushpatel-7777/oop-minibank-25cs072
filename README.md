@@ -106,4 +106,33 @@ oop-minibank-25cs072/
 
 **## How to Compile and Run**
 
-Compile
+Compile:
+
+```bash
+javac -d out model/*.java model/annotation/*.java exception/*.java util/*.java service/*.java
+```
+
+Run:
+
+```bash
+java -cp out service.MiniBank
+```
+
+**## Create and Run Runnable JAR**
+
+Create the JAR:
+
+```bash
+jar cfm MiniBank.jar manifest.txt -C out .
+```
+
+Run the JAR:
+
+```bash
+java -jar MiniBank.jar
+```
+
+**## Student Details**
+\- Name: Kush Patel
+\- Roll No: 25CS072
+\- Course: B.Tech CSE
