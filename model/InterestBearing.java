@@ -1,8 +1,13 @@
+
 package model;
 
 public interface InterestBearing {
+
+    double interestRate();
+
+    long getBalance();
+
     default double yearlyInterest() {
-        return ((Account) this).getBalance()
-                * ((Account) this).interestRate() / 100;
+        return getBalance() * interestRate() / 100.0;
     }
 }

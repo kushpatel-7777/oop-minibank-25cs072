@@ -4,6 +4,7 @@ package service;
 import java.util.Scanner;
 
 import model.*;
+import util.AnnotationValidator;
 import util.CommandParser;
 import util.StatementFormatter;
 import util.Validator;
@@ -38,6 +39,35 @@ public class MiniBank {
                 new CurrentAccount("Rahul Shah", 3000, 2000),
                 new FixedDepositAccount("Aarav Patel", 10000)
         };
+
+        System.out.println("\n========== ANNOTATION VALIDATION ==========");
+
+        Account invalidAccount = new SavingsAccount(
+                "Test User", -5000, 1000
+        );
+
+        String[] errors = AnnotationValidator.validate(invalidAccount);
+
+        if (errors.length == 0) {
+            System.out.println("Account is valid.");
+        } else {
+            for (String error : errors) {
+                System.out.println("Validation Error: " + error);
+            }
+        }
+
+        Customer invalidCustomer = new Customer(
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+                "test@gmail.com",
+                "9876543210"
+        );
+
+        String[] customerErrors =
+                AnnotationValidator.validate(invalidCustomer);
+
+        for (String error : customerErrors) {
+            System.out.println("Customer Validation Error: " + error);
+        }
 
         accounts[0].deposit(2000);
         accounts[0].withdraw(1000);

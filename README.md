@@ -41,13 +41,30 @@ A console-based banking application developed using Java as part of the Object-O
 - Static import for mobile number validation
 - Created and executed a runnable MiniBank JAR file
 
+## Lab 7 – Annotations and Reflection
+- Added `@Override` annotations to overridden methods
+- Used `@FunctionalInterface` for WithdrawRule
+- Created custom annotations: `@Id`, `@Positive` and `@MaxLength`
+- Applied annotations to Account and Customer fields
+- Implemented AnnotationValidator using Java Reflection
+- Used `getDeclaredFields()`, `isAnnotationPresent()`, `setAccessible(true)` and `get()` to inspect fields
+- Validated positive account balance and maximum customer name length
+- Tested annotation-based validation using invalid objects
+
 ## Project Structure
 
 ```text
 oop-minibank-25cs072/
 ├── model/
+│   ├── annotation/
+│   ├── Account.java
+│   ├── Customer.java
+│   └── ...
 ├── util/
+│   ├── AnnotationValidator.java
+│   └── ...
 ├── service/
+│   └── MiniBank.java
 ├── manifest.txt
 ├── MiniBank.jar
 ├── README.md
@@ -62,7 +79,7 @@ oop-minibank-25cs072/
 Compile:
 
 ```bash
-javac -d out model/*.java util/*.java service/*.java
+javac -d out model/*.java model/annotation/*.java util/*.java service/*.java
 ```
 
 Run:
