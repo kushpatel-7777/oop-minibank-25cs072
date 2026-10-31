@@ -225,6 +225,48 @@ public class MiniBank {
         System.out.println("\n" +
                 StatementFormatter.buildStatement(accounts[0]));
 
+        
+        System.out.println("\n========== MULTITHREADING TEST ==========");
+
+        Account sharedAccount = new SavingsAccount(
+                "Thread Test Account", 0, 1000
+        );
+
+        int threadCount = 10;
+        int times = 1000;
+        long amount = 1;
+
+        Thread[] threads = new Thread[threadCount];
+
+        for (int i = 0; i < threadCount; i++) {
+            AccountWorker worker = new AccountWorker(
+                    sharedAccount, times, amount
+            );
+
+            threads[i] = new Thread(
+                    worker, "Bank-Thread-" + (i + 1)
+            );
+
+            threads[i].start();
+        }
+
+        for (int i = 0; i < threadCount; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Thread interrupted.");
+                break;
+            }
+        }
+
+        System.out.println("Expected Balance: Rs. "
+                + (threadCount * times * amount));
+
+        System.out.println("Actual Balance: Rs. "
+                + sharedAccount.getBalance());
+
+        
         Scanner sc = new Scanner(System.in);
 
         while (true) {

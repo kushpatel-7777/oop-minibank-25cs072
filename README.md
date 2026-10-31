@@ -61,7 +61,18 @@ A console-based banking application developed using Java as part of the Object-O
 \- Displayed friendly error messages for banking errors
 \- Created BankSession class implementing AutoCloseable
 \- Demonstrated try-with-resources for automatic resource management
-\- Tested insufficient funds, transfer operations and resource closing
+
+**## Lab 9 – Multithreading and Synchronization**
+\- Created AccountWorker class implementing Runnable
+\- Used multiple threads to perform concurrent banking operations
+\- Created 10 threads accessing a single shared account
+\- Used the start() method to execute threads
+\- Used join() to wait for thread completion
+\- Printed thread names to observe thread lifecycle
+\- Demonstrated race conditions in shared account operations
+\- Used the synchronized keyword in deposit() and withdraw()
+\- Ensured thread-safe balance updates
+\- Verified the expected final balance after concurrent deposits
 
 **## Project Structure**
 
@@ -70,6 +81,7 @@ oop-minibank-25cs072/
 ├── model/
 │   ├── annotation/
 │   ├── Account.java
+│   ├── AccountWorker.java
 │   ├── Customer.java
 │   └── ...
 ├── exception/
@@ -94,33 +106,4 @@ oop-minibank-25cs072/
 
 **## How to Compile and Run**
 
-Compile:
-
-```bash
-javac -d out model/*.java model/annotation/*.java exception/*.java util/*.java service/*.java
-```
-
-Run:
-
-```bash
-java -cp out service.MiniBank
-```
-
-**## Create and Run Runnable JAR**
-
-Create the JAR:
-
-```bash
-jar cfm MiniBank.jar manifest.txt -C out .
-```
-
-Run the JAR:
-
-```bash
-java -jar MiniBank.jar
-```
-
-**## Student Details**
-\- Name: Kush Patel
-\- Roll No: 25CS072
-\- Course: B.Tech CSE
+Compile
