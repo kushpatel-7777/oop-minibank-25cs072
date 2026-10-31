@@ -9,6 +9,10 @@ import util.CommandParser;
 import util.StatementFormatter;
 import util.Validator;
 
+import exception.BankException;
+import exception.InsufficientFundsException;
+import exception.InvalidAmountException;
+
 import static util.Validator.isValidMobile;
 
 public class MiniBank {
@@ -48,12 +52,8 @@ public class MiniBank {
 
         String[] errors = AnnotationValidator.validate(invalidAccount);
 
-        if (errors.length == 0) {
-            System.out.println("Account is valid.");
-        } else {
-            for (String error : errors) {
-                System.out.println("Validation Error: " + error);
-            }
+        for (String error : errors) {
+            System.out.println("Validation Error: " + error);
         }
 
         Customer invalidCustomer = new Customer(
@@ -69,13 +69,58 @@ public class MiniBank {
             System.out.println("Customer Validation Error: " + error);
         }
 
-        accounts[0].deposit(2000);
-        accounts[0].withdraw(1000);
+        System.out.println("\n========== EXCEPTION HANDLING ==========");
 
-        accounts[1].deposit(1500);
-        accounts[1].withdraw(500);
+        try {
+            accounts[0].deposit(2000);
+            accounts[0].withdraw(1000);
 
-        accounts[2].deposit(2000);
+            accounts[1].deposit(1500);
+            accounts[1].withdraw(500);
+
+            accounts[2].deposit(2000);
+
+        } catch (InsufficientFundsException e) {
+            System.out.println("Bank Error: " + e.getMessage());
+            System.out.println("Shortfall: Rs. " + e.getShortfall());
+
+        } catch (InvalidAmountException e) {
+            System.out.println("Invalid Amount: " + e.getMessage());
+
+        } finally {
+            System.out.println("Banking operations completed.");
+        }
+
+        System.out.println("\n========== INSUFFICIENT FUNDS TEST ==========");
+
+        try {
+            accounts[0].withdraw(100000);
+
+        } catch (InsufficientFundsException e) {
+            System.out.println("Withdrawal Failed: " + e.getMessage());
+            System.out.println("Shortfall: Rs. " + e.getShortfall());
+
+        } catch (InvalidAmountException e) {
+            System.out.println("Invalid Amount: " + e.getMessage());
+        }
+
+        System.out.println("\n========== TRANSFER TEST ==========");
+
+        try {
+            accounts[0].transfer(accounts[1], 500);
+        } catch (BankException e) {
+            System.out.println("Transfer Failed: " + e.getMessage());
+        } finally {
+            System.out.println("Transfer test completed.");
+        }
+
+        System.out.println("\n========== TRY WITH RESOURCES ==========");
+
+        try (BankSession session = new BankSession()) {
+            System.out.println("Performing banking operations...");
+        } catch (Exception e) {
+            System.out.println("Session Error: " + e.getMessage());
+        }
 
         System.out.println("\n========== ACCOUNT DETAILS ==========");
 
@@ -125,14 +170,23 @@ public class MiniBank {
 
         System.out.println("\n========== WITHDRAWAL TEST ==========");
 
-        System.out.println("Savings withdrawal of Rs. 1000: "
-                + accounts[0].withdraw(1000));
+        try {
+            System.out.println("Savings withdrawal of Rs. 1000: "
+                    + accounts[0].withdraw(1000));
 
-        System.out.println("Current withdrawal of Rs. 6000: "
-                + accounts[1].withdraw(6000));
+            System.out.println("Current withdrawal of Rs. 6000: "
+                    + accounts[1].withdraw(6000));
 
-        System.out.println("Fixed Deposit withdrawal of Rs. 1000: "
-                + accounts[2].withdraw(1000));
+            System.out.println("Fixed Deposit withdrawal of Rs. 1000: "
+                    + accounts[2].withdraw(1000));
+
+        } catch (InsufficientFundsException e) {
+            System.out.println("Bank Error: " + e.getMessage());
+            System.out.println("Shortfall: Rs. " + e.getShortfall());
+
+        } catch (InvalidAmountException e) {
+            System.out.println("Invalid Amount: " + e.getMessage());
+        }
 
         System.out.println("\n========== VALIDATION TESTS ==========");
 
