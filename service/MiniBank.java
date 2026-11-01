@@ -225,7 +225,6 @@ public class MiniBank {
         System.out.println("\n" +
                 StatementFormatter.buildStatement(accounts[0]));
 
-        
         System.out.println("\n========== MULTITHREADING TEST ==========");
 
         Account sharedAccount = new SavingsAccount(
@@ -266,7 +265,120 @@ public class MiniBank {
         System.out.println("Actual Balance: Rs. "
                 + sharedAccount.getBalance());
 
-        
+        System.out.println("\n========== TRANSACTION PROCESSOR TEST ==========");
+
+        Account transactionAccount = new SavingsAccount(
+                "Transaction Test", 10000, 1000
+        );
+
+        TransactionProcessor processor = new TransactionProcessor();
+
+        for (int i = 1; i <= 10; i++) {
+            final int taskNumber = i;
+
+            processor.submit(() -> {
+                try {
+                    if (taskNumber % 2 == 0) {
+                        transactionAccount.deposit(500);
+
+                        System.out.println(
+                                Thread.currentThread().getName()
+                                + " deposited Rs. 500"
+                        );
+
+                    } else {
+                        transactionAccount.withdraw(200);
+
+                        System.out.println(
+                                Thread.currentThread().getName()
+                                + " withdrew Rs. 200"
+                        );
+                    }
+
+                } catch (BankException e) {
+                    System.out.println("Transaction failed: " + e.getMessage());
+                }
+            });
+        }
+
+        processor.stop();
+
+        System.out.println("Final Transaction Balance: Rs. "
+                + transactionAccount.getBalance());
+
+        System.out.println("\n========== PRODUCER CONSUMER TEST ==========");
+
+        TransactionBuffer buffer = new TransactionBuffer();
+
+        Thread producer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 10; i++) {
+                    buffer.produce(i * 100);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "Producer");
+
+        Thread consumer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 10; i++) {
+                    buffer.consume();
+                    Thread.sleep(150);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "Consumer");
+
+        producer.start();
+        consumer.start();
+
+        try {
+            producer.join();
+            consumer.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Producer-Consumer interrupted.");
+        }
+
+        System.out.println("\n========== DEADLOCK DEMONSTRATION ==========");
+
+        Account deadlockA = new SavingsAccount(
+                "Account A", 5000, 1000
+        );
+
+        Account deadlockB = new SavingsAccount(
+                "Account B", 5000, 1000
+        );
+
+        DeadlockDemo.demonstrateDeadlock(deadlockA, deadlockB);
+
+        System.out.println("\n========== DEADLOCK PREVENTION ==========");
+
+        Account safeA = new SavingsAccount(
+                "Safe Account A", 5000, 1000
+        );
+
+        Account safeB = new SavingsAccount(
+                "Safe Account B", 5000, 1000
+        );
+
+        try {
+            DeadlockDemo.transferSafely(safeA, safeB, 500);
+            DeadlockDemo.transferSafely(safeB, safeA, 300);
+
+        } catch (BankException e) {
+            System.out.println("Safe transfer failed: " + e.getMessage());
+        }
+
+        System.out.println("Safe Account A Balance: Rs. "
+                + safeA.getBalance());
+
+        System.out.println("Safe Account B Balance: Rs. "
+                + safeB.getBalance());
+
         Scanner sc = new Scanner(System.in);
 
         while (true) {
