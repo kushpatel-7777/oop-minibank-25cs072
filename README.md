@@ -1,4 +1,3 @@
-
 # MiniBank
 
 A console-based banking application developed using Java as part of the Object-Oriented Programming practicals.
@@ -113,6 +112,17 @@ A console-based banking application developed using Java as part of the Object-O
 - Used ConcurrentHashMap in TransactionProcessor for thread-safe account storage
 - Tested account retrieval, transaction history and balance sorting
 
+## Lab 13 – Generics and Generic Repository
+- Created a generic `Repository<T>` class for reusable data storage
+- Used `HashMap<String, T>` to store objects using their IDs
+- Implemented `save()`, `findById()`, `findAll()` and `delete()` methods
+- Used Java Reflection to find fields marked with the `@Id` annotation
+- Retrieved object IDs dynamically using reflection
+- Implemented `saveAll()` using `@SafeVarargs` to save multiple objects
+- Created a bounded generic method `average(N[] values)` using `N extends Number`
+- Tested Repository with multiple Account objects
+- Verified account saving, retrieval, listing, deletion and average calculation
+
 ## Project Structure
 
 ```text
@@ -152,7 +162,8 @@ oop-minibank-25cs072/
 │   ├── StatePersister.java
 │   ├── TransactionLog.java
 │   ├── ReportGenerator.java
-│   └── AccountStore.java
+│   ├── AccountStore.java
+│   └── Repository.java
 ├── manifest.txt
 ├── MiniBank.jar
 ├── README.md

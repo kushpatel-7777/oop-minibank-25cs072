@@ -18,6 +18,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 
+import service.Repository;
+
 import static util.Validator.isValidMobile;
 
 public class MiniBank {
@@ -157,6 +159,41 @@ public class MiniBank {
         for (String transaction : accountStore.getTransactionHistory()) {
             System.out.println(transaction);
         }
+
+        System.out.println("\n========== GENERIC REPOSITORY TEST ==========");
+
+Repository<Account> accountRepository = new Repository<>();
+
+accountRepository.saveAll(accounts);
+
+System.out.println("Accounts saved successfully!");
+
+Account foundAccount = accountRepository.findById(
+    accounts[0].getAccountNumber()
+);
+
+System.out.println("\nAccount fetched by ID:");
+System.out.println(foundAccount);
+
+System.out.println("\nAll accounts in Repository:");
+
+for (Account account : accountRepository.findAll()) {
+    System.out.println(account);
+}
+
+System.out.println("\nTesting delete operation:");
+
+boolean deleted = accountRepository.delete(
+    accounts[2].getAccountNumber()
+);
+
+System.out.println("Account deleted: " + deleted);
+
+System.out.println("\nTesting bounded generic method:");
+
+Integer[] numbers = {10, 20, 30, 40, 50};
+
+System.out.println("Average: " + Repository.average(numbers));
 
         System.out.println("\n========== POLYMORPHISM TEST ==========");
 
