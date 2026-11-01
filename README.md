@@ -86,6 +86,20 @@ A console-based banking application developed using Java as part of the Object-O
 - Implemented deadlock prevention using consistent lock ordering
 - Performed safe account transfers without deadlock
 
+## Lab 11 – File I/O, Serialization and Reporting
+- Implemented Serializable interface in Account, Customer and account subclasses
+- Added `serialVersionUID` to serializable classes
+- Created StatePersister to save and load account data
+- Used ObjectOutputStream and ObjectInputStream for object serialization
+- Created TransactionLog to append transaction records using Java NIO
+- Used Files.write() with CREATE and APPEND options
+- Created ReportGenerator to read transaction log files
+- Used DirectoryStream to access log files
+- Used BufferedReader to read transaction records line by line
+- Used BasicFileAttributes to retrieve file size and last modified time
+- Calculated total deposits and withdrawals
+- Generated and displayed an end-of-day report
+
 ## Project Structure
 
 ```text
@@ -121,7 +135,10 @@ oop-minibank-25cs072/
 │   ├── BankSession.java
 │   ├── TransactionProcessor.java
 │   ├── TransactionBuffer.java
-│   └── DeadlockDemo.java
+│   ├── DeadlockDemo.java
+│   ├── StatePersister.java
+│   ├── TransactionLog.java
+│   └── ReportGenerator.java
 ├── manifest.txt
 ├── MiniBank.jar
 ├── README.md

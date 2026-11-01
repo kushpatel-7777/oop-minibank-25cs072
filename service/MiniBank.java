@@ -13,6 +13,11 @@ import exception.BankException;
 import exception.InsufficientFundsException;
 import exception.InvalidAmountException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+
 import static util.Validator.isValidMobile;
 
 public class MiniBank {
@@ -378,6 +383,56 @@ public class MiniBank {
 
         System.out.println("Safe Account B Balance: Rs. "
                 + safeB.getBalance());
+
+                
+        System.out.println("\n========== FILE PERSISTENCE TEST ==========");
+
+        Path dataFolder = Paths.get("data");
+        Path logsFolder = dataFolder.resolve("logs");
+        Path stateFile = dataFolder.resolve("accounts.dat");
+
+        try {
+            Files.createDirectories(logsFolder);
+
+            StatePersister.save(accounts, stateFile);
+
+            Account[] loadedAccounts = StatePersister.load(stateFile);
+
+            System.out.println("\nReloaded Account Details:");
+
+            for (Account account : loadedAccounts) {
+                System.out.println(account);
+            }
+
+        } catch (IOException e) {
+            System.out.println("File operation error: " + e.getMessage());
+        }
+
+        System.out.println("\n========== TRANSACTION LOG TEST ==========");
+
+        Path logFile = logsFolder.resolve("transactions.txt");
+
+        TransactionLog.append(logFile, "DEPOSIT 500");
+        TransactionLog.append(logFile, "WITHDRAW 200");
+        TransactionLog.append(logFile, "DEPOSIT 1000");
+        TransactionLog.append(logFile, "WITHDRAW 300");
+
+        System.out.println("Transaction logs saved successfully.");
+
+        System.out.println("\n========== REPORT GENERATION TEST ==========");
+
+        Path reportFile = dataFolder.resolve("end-of-day-report.txt");
+
+        ReportGenerator.generate(logsFolder, reportFile);
+
+        try {
+            String report = Files.readString(reportFile);
+            System.out.println("\n" + report);
+
+        } catch (IOException e) {
+            System.out.println("Unable to read report: " + e.getMessage());
+        }
+
 
         Scanner sc = new Scanner(System.in);
 

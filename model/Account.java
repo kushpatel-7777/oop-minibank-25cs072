@@ -7,8 +7,10 @@ import exception.InsufficientFundsException;
 import exception.InvalidAmountException;
 import exception.AccountNotFoundException;
 import exception.BankException;
+import java.io.Serializable;
 
-public abstract class Account implements Transactable, InterestBearing {
+public abstract class Account implements Transactable, InterestBearing, Serializable {
+    private static final long serialVersionUID = 1L;
 
 @Id
 private final String accountNumber;

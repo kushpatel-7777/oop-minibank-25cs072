@@ -1,8 +1,10 @@
 package model;
 
 import model.annotation.MaxLength;
+import java.io.Serializable;
 
-public class Customer implements Cloneable {
+public class Customer implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @MaxLength(30)
     private String name;
@@ -18,7 +20,8 @@ public class Customer implements Cloneable {
         return "CUST" + customerCounter;
     }
 
-    public static class Address {
+    public static class Address implements Serializable {
+        private static final long serialVersionUID = 1L;
         private String line;
         private String city;
         private String pincode;
