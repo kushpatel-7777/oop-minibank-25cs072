@@ -133,6 +133,31 @@ public class MiniBank {
             System.out.println(account);
         }
 
+        System.out.println("\n========== ACCOUNT STORE TEST ==========");
+
+        AccountStore accountStore = new AccountStore();
+
+        for (Account account : accounts) {
+            accountStore.add(account);
+        }
+
+        accountStore.addTransaction("DEPOSIT AC0001 2000");
+        accountStore.addTransaction("WITHDRAW AC0002 500");
+        accountStore.addTransaction("TRANSFER AC0001 AC0002 500");
+
+        System.out.println("Account retrieved by account number:");
+        System.out.println(accountStore.get(accounts[0].getAccountNumber()));
+
+        System.out.println("\nAll accounts sorted by balance (lowest to highest):");
+        for (Account account : accountStore.sortedByBalance()) {
+            System.out.println(account);
+        }
+
+        System.out.println("\nTransaction History:");
+        for (String transaction : accountStore.getTransactionHistory()) {
+            System.out.println(transaction);
+        }
+
         System.out.println("\n========== POLYMORPHISM TEST ==========");
 
         for (Account account : accounts) {
@@ -278,13 +303,18 @@ public class MiniBank {
 
         TransactionProcessor processor = new TransactionProcessor();
 
+        processor.addAccount(transactionAccount);
+
+        System.out.println("Account added to ConcurrentHashMap: "
+                + processor.getAccount(transactionAccount.getAccountNumber()));
+
         for (int i = 1; i <= 10; i++) {
             final int taskNumber = i;
 
             processor.submit(() -> {
                 try {
                     if (taskNumber % 2 == 0) {
-                        transactionAccount.deposit(500);
+                        processor.getAccount(transactionAccount.getAccountNumber()).deposit(500);
 
                         System.out.println(
                                 Thread.currentThread().getName()
@@ -292,7 +322,7 @@ public class MiniBank {
                         );
 
                     } else {
-                        transactionAccount.withdraw(200);
+                        processor.getAccount(transactionAccount.getAccountNumber()).withdraw(200);
 
                         System.out.println(
                                 Thread.currentThread().getName()

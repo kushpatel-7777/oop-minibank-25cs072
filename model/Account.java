@@ -1,3 +1,4 @@
+
 package model;
 
 import model.annotation.Id;
@@ -9,18 +10,19 @@ import exception.AccountNotFoundException;
 import exception.BankException;
 import java.io.Serializable;
 
-public abstract class Account implements Transactable, InterestBearing, Serializable {
+public abstract class Account implements Transactable, InterestBearing, Serializable, Comparable<Account> {
+
     private static final long serialVersionUID = 1L;
 
-@Id
-private final String accountNumber;
+    @Id
+    private final String accountNumber;
 
-private String ownerName;
+    private String ownerName;
 
-@Positive
-private long balance;
+    @Positive
+    private long balance;
 
-private boolean active;
+    private boolean active;
 
     private static long accountCounter = 0;
 
@@ -45,61 +47,61 @@ private boolean active;
     public abstract boolean canWithdraw(long amount);
 
     @Override
-public synchronized void deposit(long amount) throws InvalidAmountException {
-    if (amount <= 0) {
-        throw new InvalidAmountException(
-                "Deposit amount must be greater than zero."
-        );
-    }
-
-    balance += amount;
-}
-
-    @Override
-public synchronized boolean withdraw(long amount)
-        throws InsufficientFundsException, InvalidAmountException {
-
-    if (amount <= 0) {
-        throw new InvalidAmountException(
-                "Withdrawal amount must be greater than zero."
-        );
-    }
-
-    if (!canWithdraw(amount)) {
-        long shortfall = Math.max(0, amount - balance);
-
-        throw new InsufficientFundsException(
-                "Insufficient funds. Required amount: Rs. " + amount,
-                shortfall
-        );
-    }
-
-    balance -= amount;
-    return true;
-}
-
-public void transfer(Account to, long amount) throws BankException {
-
-    try {
-        if (to == null) {
-            throw new AccountNotFoundException(
-                    "Destination account not found."
+    public synchronized void deposit(long amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException(
+                    "Deposit amount must be greater than zero."
             );
         }
 
-        withdraw(amount);
-        to.deposit(amount);
-
-        System.out.println("Transfer successful!");
-        System.out.println("Transferred Rs. " + amount);
-
-    } catch (BankException e) {
-        throw e;
-
-    } finally {
-        System.out.println("Transfer operation completed.");
+        balance += amount;
     }
-}
+
+    @Override
+    public synchronized boolean withdraw(long amount)
+            throws InsufficientFundsException, InvalidAmountException {
+
+        if (amount <= 0) {
+            throw new InvalidAmountException(
+                    "Withdrawal amount must be greater than zero."
+            );
+        }
+
+        if (!canWithdraw(amount)) {
+            long shortfall = Math.max(0, amount - balance);
+
+            throw new InsufficientFundsException(
+                    "Insufficient funds. Required amount: Rs. " + amount,
+                    shortfall
+            );
+        }
+
+        balance -= amount;
+        return true;
+    }
+
+    public void transfer(Account to, long amount) throws BankException {
+
+        try {
+            if (to == null) {
+                throw new AccountNotFoundException(
+                        "Destination account not found."
+                );
+            }
+
+            withdraw(amount);
+            to.deposit(amount);
+
+            System.out.println("Transfer successful!");
+            System.out.println("Transferred Rs. " + amount);
+
+        } catch (BankException e) {
+            throw e;
+
+        } finally {
+            System.out.println("Transfer operation completed.");
+        }
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -115,6 +117,11 @@ public void transfer(Account to, long amount) throws BankException {
 
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public int compareTo(Account other) {
+        return this.accountNumber.compareTo(other.accountNumber);
     }
 
     @Override

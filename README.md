@@ -1,3 +1,4 @@
+
 # MiniBank
 
 A console-based banking application developed using Java as part of the Object-Oriented Programming practicals.
@@ -100,6 +101,18 @@ A console-based banking application developed using Java as part of the Object-O
 - Calculated total deposits and withdrawals
 - Generated and displayed an end-of-day report
 
+## Lab 12 – Collections Framework
+- Created AccountStore using HashMap to store accounts
+- Used account numbers as unique keys in the HashMap
+- Implemented add(), get() and getAll() methods
+- Used ArrayList to maintain transaction history
+- Implemented sortedByBalance() using Comparator
+- Sorted accounts by balance from lowest to highest
+- Implemented Comparable<Account> in the Account class
+- Overrode compareTo() to compare accounts by account number
+- Used ConcurrentHashMap in TransactionProcessor for thread-safe account storage
+- Tested account retrieval, transaction history and balance sorting
+
 ## Project Structure
 
 ```text
@@ -138,7 +151,8 @@ oop-minibank-25cs072/
 │   ├── DeadlockDemo.java
 │   ├── StatePersister.java
 │   ├── TransactionLog.java
-│   └── ReportGenerator.java
+│   ├── ReportGenerator.java
+│   └── AccountStore.java
 ├── manifest.txt
 ├── MiniBank.jar
 ├── README.md
