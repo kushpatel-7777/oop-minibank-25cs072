@@ -1,3 +1,4 @@
+
 package model;
 
 public enum MenuOption {
@@ -5,5 +6,9 @@ public enum MenuOption {
     DEPOSIT,
     WITHDRAW,
     TRANSFER,
+    STATEMENT,
+    LIST_ACCOUNTS,
+    BATCH_TRANSACTIONS,
+    GENERATE_REPORT,
     EXIT
 }

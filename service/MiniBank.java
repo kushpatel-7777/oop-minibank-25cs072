@@ -503,45 +503,217 @@ System.out.println("Average: " + Repository.average(numbers));
 
         Scanner sc = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("\n========== MAIN MENU ==========");
-            System.out.println("1. Open Account");
-            System.out.println("2. Deposit");
-            System.out.println("3. Withdraw");
-            System.out.println("4. Transfer");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
+        
+Repository<Account> finalRepository = new Repository<>();
 
-            int choice = sc.nextInt();
+AccountStore finalAccountStore = new AccountStore();
 
-            MenuOption option = switch (choice) {
-                case 1 -> MenuOption.OPEN_ACCOUNT;
-                case 2 -> MenuOption.DEPOSIT;
-                case 3 -> MenuOption.WITHDRAW;
-                case 4 -> MenuOption.TRANSFER;
-                case 5 -> MenuOption.EXIT;
-                default -> null;
-            };
+TransactionProcessor finalProcessor = new TransactionProcessor();
 
-            if (option == null) {
-                System.out.println("Invalid choice! Please try again.");
-                continue;
+Path dataFolderFinal = Paths.get("data");
+Path logsFolderFinal = dataFolderFinal.resolve("logs");
+Path stateFileFinal = dataFolderFinal.resolve("accounts.dat");
+
+try {
+    Files.createDirectories(logsFolderFinal);
+
+    Account[] savedAccounts = StatePersister.load(stateFileFinal);
+
+    if (savedAccounts.length > 0) {
+        for (Account account : savedAccounts) {
+            finalRepository.save(account);
+            finalAccountStore.add(account);
+            finalProcessor.addAccount(account);
+        }
+    } else {
+        for (Account account : accounts) {
+            finalRepository.save(account);
+            finalAccountStore.add(account);
+            finalProcessor.addAccount(account);
+        }
+    }
+
+} catch (Exception e) {
+    System.out.println("Startup error: " + e.getMessage());
+}
+
+BankService bankService = new BankService(
+        finalRepository,
+        finalAccountStore,
+        finalProcessor
+);
+
+System.out.println("\nMiniBank service initialized successfully.");
+
+
+        
+
+while (true) {
+    System.out.println("\n========== MINIBANK MAIN MENU ==========");
+    System.out.println("1. Open Account");
+    System.out.println("2. Deposit");
+    System.out.println("3. Withdraw");
+    System.out.println("4. Transfer");
+    System.out.println("5. View Account Statement");
+    System.out.println("6. List All Accounts");
+    System.out.println("7. Process Batch Transactions");
+    System.out.println("8. Generate End-of-Day Report");
+    System.out.println("9. Exit");
+    System.out.print("Enter your choice: ");
+
+    int choice = sc.nextInt();
+    sc.nextLine();
+
+    MenuOption option = switch (choice) {
+        case 1 -> MenuOption.OPEN_ACCOUNT;
+        case 2 -> MenuOption.DEPOSIT;
+        case 3 -> MenuOption.WITHDRAW;
+        case 4 -> MenuOption.TRANSFER;
+        case 5 -> MenuOption.STATEMENT;
+        case 6 -> MenuOption.LIST_ACCOUNTS;
+        case 7 -> MenuOption.BATCH_TRANSACTIONS;
+        case 8 -> MenuOption.GENERATE_REPORT;
+        case 9 -> MenuOption.EXIT;
+        default -> null;
+    };
+
+    if (option == null) {
+        System.out.println("Invalid choice!");
+        continue;
+    }
+
+    try {
+        switch (option) {
+            case OPEN_ACCOUNT -> {
+                System.out.print("Owner name: ");
+                String name = sc.nextLine();
+
+                System.out.print("Email: ");
+                String email = sc.nextLine();
+
+                System.out.print("Mobile: ");
+                String mobile = sc.nextLine();
+
+                System.out.println("1. Savings  2. Current  3. Fixed Deposit");
+                System.out.print("Choose account type: ");
+                int type = sc.nextInt();
+
+                System.out.print("Initial balance: ");
+                long balance = sc.nextLong();
+
+                long limit = 0;
+
+                if (type == 1 || type == 2) {
+                    System.out.print("Minimum balance / overdraft limit: ");
+                    limit = sc.nextLong();
+                }
+
+                String accountType = switch (type) {
+                    case 1 -> "SAVINGS";
+                    case 2 -> "CURRENT";
+                    case 3 -> "FIXED";
+                    default -> "";
+                };
+
+                Account account = bankService.openAccount(
+                        accountType, name, email, mobile, balance, limit
+                );
+
+                System.out.println("Account opened successfully!");
+                System.out.println(account);
             }
 
-            String message = switch (option) {
-                case OPEN_ACCOUNT -> "Open Account - to be implemented in a later lab.";
-                case DEPOSIT -> "Deposit - to be implemented in a later lab.";
-                case WITHDRAW -> "Withdraw - to be implemented in a later lab.";
-                case TRANSFER -> "Transfer - to be implemented in a later lab.";
-                case EXIT -> "Thank you for using MiniBank!";
-            };
+            case DEPOSIT -> {
+                System.out.print("Account number: ");
+                String id = sc.nextLine();
 
-            System.out.println(message);
+                System.out.print("Deposit amount: ");
+                long depositAmount = sc.nextLong();
 
-            if (option == MenuOption.EXIT) {
-                break;
+                bankService.deposit(id, depositAmount);
+            }
+
+            case WITHDRAW -> {
+                System.out.print("Account number: ");
+                String id = sc.nextLine();
+
+                System.out.print("Withdrawal amount: ");
+                	long withdrawalAmount = sc.nextLong();
+
+                bankService.withdraw(id, withdrawalAmount);
+            }
+
+            case TRANSFER -> {
+                System.out.print("From account number: ");
+                String from = sc.nextLine();
+
+                System.out.print("To account number: ");
+                String to = sc.nextLine();
+
+                System.out.print("Transfer amount: ");
+                long transferAmount = sc.nextLong();
+
+                bankService.transfer(from, to, transferAmount);
+            }
+
+            case STATEMENT -> {
+                System.out.print("Account number: ");
+                String id = sc.nextLine();
+
+                System.out.println(bankService.statement(id));
+            }
+
+            case LIST_ACCOUNTS -> {
+                System.out.println("\n========== ALL BANK ACCOUNTS ==========");
+
+                for (Account account : bankService.listAccounts()) {
+                    System.out.println(account);
+                }
+            }
+
+            case BATCH_TRANSACTIONS -> {
+                System.out.print("Account number: ");
+                String id = sc.nextLine();
+
+                System.out.print("Amount per deposit: ");
+                	long batchAmount = sc.nextLong();
+
+                System.out.print("Number of deposits: ");
+                int count = sc.nextInt();
+
+                bankService.processBatchDeposits(id, batchAmount, count);
+            }
+
+            case GENERATE_REPORT -> {
+                Path menuReportFile = dataFolderFinal.resolve("end-of-day-report.txt");
+
+ReportGenerator.generate(logsFolderFinal, menuReportFile);
+
+System.out.println(Files.readString(menuReportFile));
+            }
+
+            case EXIT -> {
+                Account[] finalAccounts =
+                        finalRepository.findAll().toArray(new Account[0]);
+
+                StatePersister.save(finalAccounts, stateFileFinal);
+
+                finalProcessor.stop();
+
+                System.out.println("Thank you for using MiniBank!");
             }
         }
+
+    } catch (Exception e) {
+        System.out.println("Operation failed: " + e.getMessage());
+    }
+
+    if (option == MenuOption.EXIT) {
+        break;
+    }
+}
+
+
 
         sc.close();
     }

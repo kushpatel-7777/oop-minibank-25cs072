@@ -1,6 +1,6 @@
 # MiniBank
 
-A console-based banking application developed using Java as part of the Object-Oriented Programming practicals.
+A console-based banking application developed using Java as part of the Object-Oriented Programming practicals. This project combines core Java concepts to build a functional banking management system with account operations, transaction processing, data persistence and reporting.
 
 ## Lab 1 – Menu Shell
 - Java Records and Enums
@@ -26,9 +26,7 @@ A console-based banking application developed using Java as part of the Object-O
 
 ## Lab 5 – Abstract Classes and Polymorphism
 - Abstract Account class
-- SavingsAccount
-- CurrentAccount
-- FixedDepositAccount
+- SavingsAccount, CurrentAccount and FixedDepositAccount
 - Method overriding
 - Runtime polymorphism
 - Account-specific withdrawal rules
@@ -36,7 +34,7 @@ A console-based banking application developed using Java as part of the Object-O
 ## Lab 6 – Interfaces, Packages and Runnable JAR
 - Transactable interface for deposit and withdrawal operations
 - InterestBearing interface with default `yearlyInterest()` method
-- WithdrawRule functional interface using anonymous class and lambda expression
+- WithdrawRule functional interface using anonymous classes and lambda expressions
 - Premium marker interface
 - Organized Java classes into `model`, `util` and `service` packages
 - Static import for mobile number validation
@@ -54,22 +52,21 @@ A console-based banking application developed using Java as part of the Object-O
 
 ## Lab 8 – Exception Handling
 - Created custom exception hierarchy using BankException
-- Implemented InsufficientFundsException with shortfall field
+- Implemented InsufficientFundsException with a shortfall field
 - Created AccountNotFoundException and InvalidAmountException
 - Added exception handling to deposit and withdrawal operations
-- Implemented `transfer()` method with try-catch-finally blocks
+- Implemented `transfer()` using try-catch-finally blocks
 - Used checked exceptions for banking operations
 - Displayed friendly error messages for banking errors
-- Created BankSession class implementing AutoCloseable
+- Created BankSession implementing AutoCloseable
 - Demonstrated try-with-resources for automatic resource management
 
 ## Lab 9 – Multithreading and Synchronization
 - Created AccountWorker class implementing Runnable
-- Used multiple threads to perform concurrent banking operations
-- Created 10 threads accessing a single shared account
-- Used the `start()` method to execute threads
-- Used `join()` to wait for thread completion
-- Printed thread names to observe thread lifecycle
+- Used multiple threads for concurrent banking operations
+- Created 10 threads accessing a shared account
+- Used `start()` to execute threads and `join()` to wait for completion
+- Printed thread names to observe thread execution
 - Used the synchronized keyword in `deposit()` and `withdraw()`
 - Ensured thread-safe balance updates
 - Verified the expected final balance after concurrent deposits
@@ -87,10 +84,10 @@ A console-based banking application developed using Java as part of the Object-O
 - Performed safe account transfers without deadlock
 
 ## Lab 11 – File I/O, Serialization and Reporting
-- Implemented Serializable interface in Account, Customer and account subclasses
+- Implemented Serializable in Account, Customer and account subclasses
 - Added `serialVersionUID` to serializable classes
 - Created StatePersister to save and load account data
-- Used ObjectOutputStream and ObjectInputStream for object serialization
+- Used ObjectOutputStream and ObjectInputStream for serialization
 - Created TransactionLog to append transaction records using Java NIO
 - Used Files.write() with CREATE and APPEND options
 - Created ReportGenerator to read transaction log files
@@ -103,12 +100,12 @@ A console-based banking application developed using Java as part of the Object-O
 ## Lab 12 – Collections Framework
 - Created AccountStore using HashMap to store accounts
 - Used account numbers as unique keys in the HashMap
-- Implemented add(), get() and getAll() methods
+- Implemented `add()`, `get()` and `getAll()` methods
 - Used ArrayList to maintain transaction history
-- Implemented sortedByBalance() using Comparator
+- Implemented `sortedByBalance()` using Comparator
 - Sorted accounts by balance from lowest to highest
 - Implemented Comparable<Account> in the Account class
-- Overrode compareTo() to compare accounts by account number
+- Overrode `compareTo()` to compare accounts by account number
 - Used ConcurrentHashMap in TransactionProcessor for thread-safe account storage
 - Tested account retrieval, transaction history and balance sorting
 
@@ -122,6 +119,18 @@ A console-based banking application developed using Java as part of the Object-O
 - Created a bounded generic method `average(N[] values)` using `N extends Number`
 - Tested Repository with multiple Account objects
 - Verified account saving, retrieval, listing, deletion and average calculation
+
+## Lab 14 – Final Integration and Capstone
+- Created BankService to connect Repository, Validator and custom exceptions
+- Integrated the Practical 1 menu with actual banking operations
+- Implemented account opening, deposits, withdrawals and fund transfers
+- Added account statements and account listing
+- Integrated TransactionProcessor with thread-safe account storage
+- Implemented batch transaction processing
+- Loaded saved account data during application startup
+- Saved account information when exiting the application
+- Integrated end-of-day report generation
+- Prepared the complete MiniBank application for final testing and runnable JAR packaging
 
 ## Project Structure
 
@@ -155,6 +164,7 @@ oop-minibank-25cs072/
 │   └── StatementFormatter.java
 ├── service/
 │   ├── MiniBank.java
+│   ├── BankService.java
 │   ├── BankSession.java
 │   ├── TransactionProcessor.java
 │   ├── TransactionBuffer.java
@@ -172,16 +182,17 @@ oop-minibank-25cs072/
 
 ## Requirements
 - Java JDK 17 or above
+- VS Code, IntelliJ IDEA or any Java-supported IDE
 
 ## How to Compile and Run
 
-Compile:
+**Compile:**
 
 ```bash
 javac -d out model/*.java model/annotation/*.java exception/*.java util/*.java service/*.java
 ```
 
-Run:
+**Run:**
 
 ```bash
 java -cp out service.MiniBank
@@ -189,19 +200,25 @@ java -cp out service.MiniBank
 
 ## Create and Run Runnable JAR
 
-Create the JAR:
+**Create the JAR:**
 
 ```bash
 jar cfm MiniBank.jar manifest.txt -C out .
 ```
 
-Run the JAR:
+**Run the JAR:**
 
 ```bash
 java -jar MiniBank.jar
 ```
 
 ## Student Details
-- Name: Kush Patel
-- Roll No: 25CS072
-- Course: B.Tech CSE
+- **Name:** Kush Patel
+- **Student ID:** 25CS072
+- **Branch:** Computer Science and Engineering (CSE)
+- **Course:** B.Tech
+- **University:** Charotar University of Science and Technology (CHARUSAT)
+
+---
+
+**MiniBank – 14 Practicals, One Complete Java Project.**
